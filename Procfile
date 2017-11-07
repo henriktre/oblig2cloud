@@ -1,0 +1,2 @@
+web: subscriberWebAPI
+clock: currencyMonitor
