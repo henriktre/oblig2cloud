@@ -312,6 +312,8 @@ func handlerPost(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		// ErrorWithJSON(w, "Incorrect body", http.StatusBadRequest)
 		fmt.Println("Error decoding json")
+		w.WriteHeader(400)
+		fmt.Fprintf(w, "Internal error")
 		return
 	}
 
