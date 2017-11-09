@@ -31,7 +31,7 @@ type PostWebhook struct {
 	MaxTriggerValue float32       `json:"MaxTriggerValue"`
 }
 
-// WebHookInvoked data type
+// PostWebhookInvoked data type
 type PostWebhookInvoked struct {
 	BaseCurrency    string  `json:"baseCurrency"`
 	TargetCurrency  string  `json:"targetCurrency"`
@@ -39,6 +39,8 @@ type PostWebhookInvoked struct {
 	MinTriggerValue float32 `json:"minTriggerValue"`
 	MaxTriggerValue float32 `json:"maxTriggerValue"`
 }
+
+// LatestRates struct
 type LatestRates struct {
 	BaseCurrency   string `json:"baseCurrency"`
 	TargetCurrency string `json:"targetCurrency"`
@@ -84,6 +86,7 @@ func main() {
 	http.ListenAndServe(":8080", r)
 }
 
+// Init function
 func Init(db *mgo.Database, r *mux.Router) {
 	database = db
 	// Cron jobs
@@ -166,7 +169,6 @@ func evaluateTrigger(w http.ResponseWriter, req *http.Request) {
 	if dbErr != nil {
 		w.WriteHeader(500)
 		fmt.Fprintf(w, "Internal error")
-		return
 	} else {
 		for i := range results {
 			item := results[i]
@@ -178,6 +180,7 @@ func evaluateTrigger(w http.ResponseWriter, req *http.Request) {
 	}
 }
 
+// InvokeWebHook function
 func InvokeWebHook(curr Convertion, item PostWebhook) {
 	inv := PostWebhookInvoked{
 		BaseCurrency:    curr.From,
